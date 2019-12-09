@@ -37,7 +37,7 @@ class npc_morph : public CreatureScript
 		    player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,creature->GetGUID());
 			return true;
 	}
-	bool OnGossipSelect(Player *player, Creature *creature, uint32 sender, uint32 action )
+	bool OnGossipSelect(Player *player, Creature *creature, uint32 /*sender*/, uint32 action )
 		{
 		  if (!player->getAttackers().empty())
 	{
