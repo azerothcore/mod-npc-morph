@@ -25,7 +25,7 @@
 4. Done :)
 
 ### Usage
-- Enable this module, spawn Morph NPC and talk with him.
+- Enable this module, spawn Morph NPC (.npc add 55004) and talk with him.
 
 ### Showcase / Video 
 [Watch Video here](https://youtu.be/7UPJatFJN-8)
