@@ -4,6 +4,8 @@ INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entr
 */
 
 #include "ScriptMgr.h"
+#include "ScriptedGossip.h"
+#include "Player.h"
 
 #define MSG_GOSSIP_TEXT_GETTING_STARTED	"Welcome to AzerothCore morph service!"
 
@@ -23,61 +25,86 @@ class npc_morph : public CreatureScript
     public: 
     npc_morph() : CreatureScript("npc_morph") { }
 
-	bool OnGossipHello(Player *player, Creature *creature)
-		{ 
-			creature->MonsterWhisper(MSG_GOSSIP_TEXT_GETTING_STARTED, player);
-			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_MALE, GOSSIP_SENDER_MAIN, 2);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_FEMALE, GOSSIP_SENDER_MAIN, 3);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_MALE, GOSSIP_SENDER_MAIN, 4);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_FEMALE, GOSSIP_SENDER_MAIN, 5);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_MALE, GOSSIP_SENDER_MAIN, 6);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_FEMALE, GOSSIP_SENDER_MAIN, 7);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_MALE, GOSSIP_SENDER_MAIN, 8);
-		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_FEMALE, GOSSIP_SENDER_MAIN, 9);
-		    player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,creature->GetGUID());
-			return true;
-	}
+//	bool OnGossipHello(Player *player, Creature *creature)
+//		{ 
+//			creature->MonsterWhisper(MSG_GOSSIP_TEXT_GETTING_STARTED, player);
+//			player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_MALE, GOSSIP_SENDER_MAIN, 2);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_FEMALE, GOSSIP_SENDER_MAIN, 3);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_MALE, GOSSIP_SENDER_MAIN, 4);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_FEMALE, GOSSIP_SENDER_MAIN, 5);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_MALE, GOSSIP_SENDER_MAIN, 6);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_FEMALE, GOSSIP_SENDER_MAIN, 7);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_MALE, GOSSIP_SENDER_MAIN, 8);
+//		    player->ADD_GOSSIP_ITEM(GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_FEMALE, GOSSIP_SENDER_MAIN, 9);
+//		    player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE,creature->GetGUID());
+//			return true;
+//	}
+
+    bool OnGossipHello(Player *player, Creature *creature)
+        {
+            ClearGossipMenuFor(player);
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_MALE, GOSSIP_SENDER_MAIN, 2);
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_GNOME_FEMALE, GOSSIP_SENDER_MAIN, 3); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_MALE, GOSSIP_SENDER_MAIN, 4); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_HUMAN_FEMALE, GOSSIP_SENDER_MAIN, 5); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_MALE, GOSSIP_SENDER_MAIN, 6); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_BLOOD_ELF_FEMALE, GOSSIP_SENDER_MAIN, 7); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_MALE, GOSSIP_SENDER_MAIN, 8); 
+            AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, MSG_GOSSIP_TEXT_MORTH_TAUREN_FEMALE, GOSSIP_SENDER_MAIN, 9); 
+            SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
+            return true;
+        }
+   
 	bool OnGossipSelect(Player *player, Creature *creature, uint32 /*sender*/, uint32 action )
 		{
 		  if (!player->getAttackers().empty())
 	{
 		creature->MonsterWhisper(MSG_ERR_INCOMBAT, player);
-		player->CLOSE_GOSSIP_MENU();
+		//player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
         return false;
 		  }
     switch (action)
 	{
 	case 2:
 		player->SetDisplayId(20580);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	case 3:
 		player->SetDisplayId(20320);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	case 4:
 		player->SetDisplayId(15833);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	case 5:
 		player->SetDisplayId(25056);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	case 6:
 		player->SetDisplayId(20368);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
         break;
 	case 7:
 		player->SetDisplayId(20370);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
         break;
 	case 8:
 		player->SetDisplayId(20319);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	case 9:
 		player->SetDisplayId(20584);
-        player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
+		ClearGossipMenuFor(player);
 		break;
 	}
 	return true;
