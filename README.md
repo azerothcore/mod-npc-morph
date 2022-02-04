@@ -14,7 +14,7 @@
 7. Morph character in Tauren, male
 8. Morph character in Tauren, female
 9. Will be added more morphs soon..
-do you believe in magic
+
 
 ### This module currently requires:
 - AzerothCore v1.0.1+
