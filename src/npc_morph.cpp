@@ -44,7 +44,7 @@ class npc_morph : public CreatureScript
 		{
 		  if (!player->getAttackers().empty())
 	{
-		creature->Whisper(MSG_ERR_INCOMBAT, 'LANG_UNIVERSAL, player);
+		creature->Whisper(MSG_ERR_INCOMBAT, 'LANG_UNIVERSAL', player);
 		ClearGossipMenuFor(player);
         return false;
 		  }
